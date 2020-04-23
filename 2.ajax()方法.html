@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        ul,li{
+            list-style: none;
+        }
+        .box{
+            width: 500px;
+            margin: 100px auto;
+        }
+        input {
+            width: 200px;
+            height: 30px;
+        }
+        li{
+            width: 200px;
+            height: 30px;
+            line-height: 30px;
+            background-color: #fff;
+            cursor: pointer;
+        }
+        ul{
+            width: 200px;
+            border: 1px solid #ccc;
+        }
+        li:hover {
+            background-color: #ccc;
+        }
+    </style>
+</head>
+<body>
+<div class="box">
+    <input type="text">
+    <button>百度一下</button>
+    <ul></ul>
+</div>
+<script src="lib/jquery-1.8.3.min.js" type="text/javascript" charset="utf-8"></script>
+<script>
+	$(function(){
+
+		//    wd就是我们请求的时候输入的内容  ?号前面是地址 后面是参数   每个参数用&隔开   cb就是回调函数 callback
+//         https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su?wd=1234&json=1&p=3&sid=1433_21112_18560_27401&req=2&bs=12306&pbs=12306&csor=4&pwd=123&cb=jQuery11020049988230336351025_1540909915980&_=1540909915986
+	    $('input').on('keyup',function(){
+	        // 首先获取一下input文本框的内容
+	        var txt = $('input').val();
+	//        调用jquery ajax方法
+	        $.ajax({
+	            // 我们要请求的地址
+	            url: 'https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su?',
+	            // 请求方式是get（一般都用get，登陆或注册的时候用post）
+	            type: 'get',
+	            // data就是我们要请求服务器时候的请求内容
+	            data: {
+	                wd:txt
+	            },
+	            // datatype 是一个请求的数据类型
+	            dataType:'jsonp',
+	            // jsonp这个参数是cb
+	            jsonp: 'cb',
+	            success: function(data){
+	                var str = '';
+	                console.log(data.s);
+	                for(var i = 0 ; i < data.s.length ; i ++){
+	                    str += '<li>';
+	                    str += data.s[i];
+	                    str += '</li>';
+	                }
+	                $('ul').html(str);
+	            },
+	            error: function(){
+	                alert('请求失败')
+	            }
+	    	});   	
+	    });
+	   
+	})
+</script>
+</body>
+</html>
